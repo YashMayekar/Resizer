@@ -1,0 +1,90 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    height: 90px;
+    z-index: 1000; /* Ensure Navbar is above other content */
+    top: 0; /* Fix Navbar at the top */
+}
+
+.header-bg {
+    background-color: linear-gradient(90deg, rgba(19,7,46,1) 0%, rgba(63,33,130,1) 35%);
+    transition: background 0.3s;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    padding: 0 1rem;
+}
+
+.nav-menu li a {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: white;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.hamburger-icon {
+    display: initial;
+}
+
+/* Adjust the margin-top of the content to make space for the fixed Navbar */
+.content {
+    margin-top: 90px; /* Adjust this value as needed */
+}
+
+@media screen and (max-width: 1040px) {
+    .nav-menu {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: -100%;
+        z-index: 10;
+        transition: left 0.3s;
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-menu li {
+        padding: 1rem 0;
+    }
+
+    .nav-menu li a {
+        font-size: 2rem;
+    }
+
+    .hamburger {
+        display: initial;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .hamburger-icon {
+        color: white;
+    }
+    .cross{
+        margin-bottom: 30px;
+    }
+}

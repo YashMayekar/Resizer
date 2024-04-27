@@ -1,0 +1,160 @@
+.home {
+  width: 100%;
+  margin-top: 130px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.startcard {
+  margin-top: -20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  max-width: 95%;
+  background: linear-gradient(90deg, rgba(19,7,46,0.8) 0%, rgba(63,33,130,0.8) 35%);
+  border-radius: 25px;
+  padding: 5px;
+  position: relative;
+}
+
+.right {
+  flex: 1;
+  padding: 10px;
+  text-align: right;
+}
+
+.left {
+  flex: 1;
+  padding: 10px;
+  text-align: left;
+  position: relative;
+}
+
+.left .content {
+  margin-top: -5px;
+  text-align: left;
+  padding: 27px;
+  font-size: 1.4rem;
+  width: 50%;
+}
+
+.img {
+  max-width: 40%;
+  height: auto;
+  border: 1px solid #333;
+  border-radius: 25px;
+  animation: levitateImage 0.5s ease infinite alternate;
+  position: absolute;
+  top: 50%;
+  right: 50px; /* Adjusted */
+  margin-top: -20%;
+  
+}
+
+@keyframes levitateImage {
+  0% {
+    transform: translateY(3);
+  }
+  100% {
+    transform: translateY(-5px); /* Adjusted */
+  }
+}
+
+.right .img {
+  box-shadow: 30px 0 70px #008cff85, -30px 0 70px #e100ffbb;
+  color: white;
+}
+
+.btn {
+  margin-top: 25px;
+  background: white;
+  color: black;
+  font-size: 1.5rem;
+  border-radius: 25px;
+  width: 300px;
+  height: 85px;
+  border-color: none;
+  border-width: 0;
+}
+
+.startcard .btn {
+  padding-top: 5px;
+  color: black;
+  animation: levitate 0.5s ease infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(3);
+  }
+  100% {
+    transform: translateY(-5px); /* Adjusted */
+  }
+}
+
+.startcard .btn:hover {
+  box-shadow: 30px 0 70px #008cff85, -30px 0 70px #e100ffbb;
+  color: white;
+}
+
+.topbtn {
+  margin-bottom: 15px;
+  padding: 5px;
+  font-size: 1.25rem;
+  width: 200px;
+  background-color: #b3aaff;
+  border-radius: 25px;
+  border-color: none;
+  animation: levitateImage 0.5s ease infinite alternate;
+}
+
+@keyframes levitateImage {
+  0% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, rgba(19,7,46,1) 0%, rgba(63,33,130,1) 35%);
+  color: black;
+  transition: 0.3s;
+}
+
+@media (max-width: 767px) {
+  .left,
+  .right {
+    text-align: center;
+    position: static;
+  }
+
+  .img {
+    display: none;
+  }
+
+  .startcard {
+    background-image: url('../assets/cam.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .left .content {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .left .content h1,
+  .left .content p {
+    display: block;
+    text-align: center;
+  }
+}
+
