@@ -1,0 +1,122 @@
+/* .startcard {
+    margin-top: 100px;
+    justify-content: left;
+    align-items: left;
+    display: flex;
+    flex-direction: column;
+    height: 550px;
+    width: 85%;
+    background: linear-gradient(90deg, rgba(19,7,46,0.8) 0%, rgba(63,33,130,0.8) 35%);
+    border-radius: 25px;
+  }
+
+  .content{
+    margin-top: -70px;
+    flex: 1;
+    padding: 0px;
+ 
+    text-align: center;
+    padding: 27px;
+    font-size: 1.4rem;
+    width: 110%; 
+ 
+    margin-bottom: 15px;
+} */
+
+
+.startcardapp {
+  margin-top: 70px;
+  margin-left: 50px;
+  margin-right: 50px;
+  justify-content: center;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+  width: 50%%;
+  /* background: linear-gradient(90deg, rgba(19,7,46,1) 0%, rgba(63,33,130,1) 35%); */
+  background: linear-gradient(90deg, rgba(19,7,46,0.8) 0%, rgba(63,33,130,0.8) 35%);
+  border-radius: 25px;
+}
+
+.contentapp {
+  text-align: left; /* Aligns text left */
+  justify-content: right;
+  align-items: right;
+  padding: 20px;
+  width: 52%; /* Ensures the content takes full width */
+  position: absolute;
+  margin-right: 55px;
+  right: 0;
+}
+
+.contentapp h1 {
+  margin-bottom: 15px;
+  font-size: 3rem;
+  animation: fadeindown 2s ease;
+}
+
+.contentapp p {
+  margin-top: 10px;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  text-align: left;
+  word-spacing: 2px;
+  animation: fadeinup 2s ease;
+}
+
+.image{
+width: 40%;
+margin-top: 27px;
+border-radius: 25px;
+position: relative;
+top: 5px;
+right: 60%;
+animation: fadeinleft 2s ease;
+}
+
+
+@keyframes fadeinup {
+  0%{
+    opacity: 0;
+    transform: translateY(52px);
+  }
+  100%{
+    opacity:1;
+    transform: translateY(0px);
+  }
+}
+
+
+@keyframes fadeinleft {
+  0%{
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeindown {
+  0%{
+    opacity: 0;
+    transform: translateY(-52px);
+  }
+  100%{
+    opacity:1;
+    transform: translateY(0px);
+  }
+}
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .startcardapp {
+    margin-top: 50px;
+  }
+}
