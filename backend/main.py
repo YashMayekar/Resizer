@@ -25,11 +25,15 @@ logging.basicConfig(level=logging.INFO)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://resizer-web.netlify.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def root():
+    return {"message": "Hello from FastAPI"}
 
 # ---------------------------------------------------------
 # Global task store
