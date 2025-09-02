@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const API_BASE = process.env.RESIZER_FASTAPI_URL;
 
 const Resizecontent = () => {
   const [file, setFile] = useState(null);
@@ -48,7 +49,7 @@ const Resizecontent = () => {
 
     try {
       // ✅ Start resize task
-      const response = await axios.post("http://127.0.0.1:8000/resize", formData, {
+      const response = await axios.post(`${API_BASE}/resize`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -68,7 +69,7 @@ const Resizecontent = () => {
   const pollProgress = (taskId) => {
     const interval = setInterval(async () => {
       try {
-        const res = await axios.get(`http://127.0.0.1:8000/resize/${taskId}/progress`);
+        const res = await axios.get(`${API_BASE}/resize/resize/${taskId}/progress`);
         const { progress, status } = res.data;
 
         setProgress(progress);
@@ -93,7 +94,7 @@ const Resizecontent = () => {
   // ✅ Fetch result file when completed
   const fetchResult = async (taskId) => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/resize/${taskId}/result`, {
+      const res = await axios.get(`${API_BASE}/resize/resize/${taskId}/result`, {
         responseType: "blob",
       });
 
