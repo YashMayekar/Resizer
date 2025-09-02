@@ -2,21 +2,36 @@ import React from "react";
 import "../components/Ourappcontent.css";
 import camimage from '../assets/Designer (1).png';
 
-
 const Ourappcontent = () => {
   return (
     <div className="startcardapp">
-        <div className="contentapp">
-            <h1>Effortless Media Resizing with Our App</h1>
-            <p>Our app offers a hassle free solution for resizing a variety of media files including images, videos, and GIFs. With a user friendly interface, users can easily upload their files, specify the desired percentage for resizing and choose between upscaling or downscaling options. Powered by Flask on the backend and React on the frontend, our app ensures efficient processing and dynamic interaction. Whether you need to compress large images, expand small videos, or optimize GIFs, our app provides a seamless experience for all your media resizing needs.</p>
-        </div>
+      <div className="left-content">
+        <h1>Effortless Media Resizing</h1>
+        <p>
+          Our application provides a seamless solution for resizing and 
+          upscaling a variety of media files — including <b>images</b>, 
+          <b>GIFs</b>, and <b>videos</b>. With a clean and intuitive interface, 
+          you can upload your file, choose the resize percentage, and select 
+          whether to <b>upscale</b> or <b>downscale</b>.
+        </p>
+        <p>
+          Powered by <b>FastAPI</b> on the backend and <b>React</b> on the frontend, 
+          the app ensures fast processing and smooth interaction. 
+          Advanced features like <b>FSRCNN Super-Resolution</b> deliver 
+          high-quality results for sharper images and videos.
+        </p>
+        <p>
+          Whether you need to compress large images, optimize GIFs for the web, 
+          or upscale low-resolution videos, our app makes it effortless. 
+          Track progress in real-time and download your processed media instantly.
+        </p>
+      </div>
 
-        <div className="right"> 
-              <img src={camimage} className="image" alt="true"/>
-        </div>
-      
+      <div className="right-content">
+        <img src={camimage} className="image" alt="App demo" />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Ourappcontent
+export default Ourappcontent;

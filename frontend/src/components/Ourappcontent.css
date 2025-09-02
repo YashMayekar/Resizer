@@ -1,122 +1,82 @@
-/* .startcard {
-    margin-top: 100px;
-    justify-content: left;
-    align-items: left;
-    display: flex;
-    flex-direction: column;
-    height: 550px;
-    width: 85%;
-    background: linear-gradient(90deg, rgba(19,7,46,0.8) 0%, rgba(63,33,130,0.8) 35%);
-    border-radius: 25px;
-  }
-
-  .content{
-    margin-top: -70px;
-    flex: 1;
-    padding: 0px;
- 
-    text-align: center;
-    padding: 27px;
-    font-size: 1.4rem;
-    width: 110%; 
- 
-    margin-bottom: 15px;
-} */
-
-
 .startcardapp {
-  margin-top: 70px;
-  margin-left: 50px;
-  margin-right: 50px;
-  justify-content: center;
-  align-items: left;
+  margin: 18vh auto auto auto;
+  max-width: 90%;
   display: flex;
-  flex-direction: column;
-  height: 550px;
-  width: 50%%;
-  /* background: linear-gradient(90deg, rgba(19,7,46,1) 0%, rgba(63,33,130,1) 35%); */
-  background: linear-gradient(90deg, rgba(19,7,46,0.8) 0%, rgba(63,33,130,0.8) 35%);
-  border-radius: 25px;
-}
-
-.contentapp {
-  text-align: left; /* Aligns text left */
-  justify-content: right;
-  align-items: right;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   padding: 20px;
-  width: 52%; /* Ensures the content takes full width */
-  position: absolute;
-  margin-right: 55px;
-  right: 0;
+  border-radius: 25px;
+  background: linear-gradient(90deg, rgba(19,7,46,0.9) 0%, rgba(63,33,130,0.9) 100%, rgba(19,7,46,0.9) 100%);
+  color: #fff;
 }
 
-.contentapp h1 {
-  margin-bottom: 15px;
-  font-size: 3rem;
-  animation: fadeindown 2s ease;
+/* Left Side - Text */
+.left-content {
+  flex: 1;
+  padding: 20px;
 }
 
-.contentapp p {
-  margin-top: 10px;
-  font-size: 1.3rem;
-  line-height: 1.5;
-  text-align: left;
-  word-spacing: 2px;
-  animation: fadeinup 2s ease;
+.left-content h1 {
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  animation: fadeindown 1.2s ease;
 }
 
-.image{
-width: 40%;
-margin-top: 27px;
-border-radius: 25px;
-position: relative;
-top: 5px;
-right: 60%;
-animation: fadeinleft 2s ease;
+.left-content p {
+  margin: 12px 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  animation: fadeinup 1.2s ease;
 }
 
+/* Right Side - Image */
+.right-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
 
+.image {
+  width: 90%;
+  max-width: 70vh;
+  border-radius: 20px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+  animation: fadeinleft 1.2s ease;
+}
+
+/* Animations */
 @keyframes fadeinup {
-  0%{
-    opacity: 0;
-    transform: translateY(52px);
-  }
-  100%{
-    opacity:1;
-    transform: translateY(0px);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 
 @keyframes fadeinleft {
-  0%{
-    opacity: 0;
-    transform: translateX(-60px);
-  }
-  100%{
-    opacity: 1;
-    transform: translateX(0px);
-  }
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeindown {
-  0%{
-    opacity: 0;
-    transform: translateY(-52px);
-  }
-  100%{
-    opacity:1;
-    transform: translateY(0px);
-  }
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-
-
-
-
-
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 992px) {
   .startcardapp {
-    margin-top: 50px;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .left-content, .right-content {
+    width: 100%;
+  }
+
+  .image {
+    width: 80%;
+    max-width: 300px;
+    margin-top: 20px;
   }
 }

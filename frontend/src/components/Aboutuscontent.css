@@ -1,77 +1,99 @@
+.about-container {
+  margin: 18vh auto auto auto;
+  max-width: 70%  ;
+  text-align: center;
+  padding: 40px;
+  border-radius: 25px;
+  background: linear-gradient(180deg,  rgba(63,33,130,0.95), rgba(19,7,46,0.95));
+  color: #fff;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.4);
+}
+
+.about-title {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  animation: fadeindown 1.2s ease;
+}
+
+.about-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #ddd;
+  animation: fadeinup 1.2s ease;
+}
+
 .team-members-container {
-    margin-top: 13%;
-    display: flex; /* Use flexbox for the container */
-    justify-content: center; /* Center the items horizontally */
-    flex-wrap: wrap; /* Allow the items to wrap to the next line */
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.member-card {
+    background: linear-gradient(135deg,  rgba(63,33,130,0.95) 0%, rgba(19,7,46,0.95) 100%);
+
+  border-radius: 20px;
+  padding: 25px;
+  width: 50vh;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeinup 1.5s ease;
+}
+
+.member-card:hover {
+  background: linear-gradient(135deg,  rgba(63,33,130,0.95) 0%, rgba(19,7,46,0.95) 100%);
+  transform: translateY(-10px);
+  box-shadow: 0px 12px 30px rgba(0,0,0,0.4);
+}
+
+.member-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #fff;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+}
+
+.member-card h2 {
+  margin: 10px 0 8px;
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+.role {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #c9b6ff;
+  margin-bottom: 12px;
+}
+
+.bio {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+/* Animations */
+@keyframes fadeinup {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeindown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-members-container {
+    flex-direction: column;
+    align-items: center;
   }
-  
+
   .member-card {
-    justify-content: center;
-    /* width: 20p%; */
-    /* flex: 0 0 calc(33.33% - 20px);  Set the width of each card */ 
-    padding: 80px;
-    background: linear-gradient(90deg, rgba(19,7,46,0.8) 0%, rgba(63,33,130,0.8) 35%);
-    /* border: 0.1px solid #C0C0C0;  */
-    /* border: 0.5px solid transparent; enavle any border for that rotating effect*/
-  border-top: 1.5px solid transparent; /* Ensure all sides have initial transparent border */
-  border-right: 1.5px solid transparent;
-  border-bottom: 1.5px solid transparent;
-    border-radius: 25px;
-    text-align: center;
-    margin: 0 20px 20px; /* Add margin to separate and space vertically */
-    animation: borderAnimation 3s infinite; 
+    width: 90%;
+    max-width: 350px;
   }
-
-  @keyframes borderAnimation {
-    0% {
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-    }
-    50% {
-      border-top-color: #C0C0C0;
-      border-right-color: #C0C0C0;
-      border-bottom-color: #C0C0C0;
-    }
-    100% {
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-    }
-  }
-
-  
-
-  /* @keyframes borderAnimation {  */
-    /* 0% { */
-      /* border-color: #C0C0C0#000; */
-    /* } */
-    /* 50% { */
-      /* border-color: #C0C0C0#000; */
-    /* } */
-    /* 100% { */
-      /* border-color:#C0C0C0#000; */
-    /* } */
-  /* }  */
-
-
-  /* .member-card:hover{
-   box-shadow: 30px 0 70px #008cff85,
-      -30px 0 70px #e100ffbb;
-      color: white;
-  } */
-
-  .member-card:hover{
-    cursor: pointer;
-    background-color:#b151ffd0;
-    box-shadow: 5px 0 25px 5px  #b151ffd0,
-      -5px 0 25px #b151ffd0;
-  }
-  
-  .member-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%; /* Make the image round */
-    margin: 0 auto 10px; /* Center the image */
-  }
-  
+}

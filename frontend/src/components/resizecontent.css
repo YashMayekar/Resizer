@@ -1,281 +1,290 @@
-
-
-
+/* ===============================
+   Resize Card Layout
+================================= */
 .resizecard {
-    color: white;
-    justify-content: space-between;
-    padding: 50px;
-    margin-top: 100px;
-    margin-right: auto;
-    margin-bottom: 50px;
-    margin-left: auto;
-    border-radius: 50px;
-    display: flex;
-    flex-direction: row;
-    height: 500px;
-    width: 70%;
-    background: linear-gradient(to right top, #10052a, #3f2182);
-  }
-  
-  .resizecard .showfile{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    /* width: 500px; */
-    width: 350px;
-    margin-right: 100px;
-    /* background-color: rgba(240, 248, 255, 0.073); */
-  }
-   
-  .resizecard .input{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 30px;
+  margin: 18vh auto auto auto;
+  max-width: 95%;
 
-    border-radius: 50px;
-    padding: 10px;
-    padding-left: 50px;
-    font-size: 20px;
-    width:100; /*700px initial*/
-    background-color: rgba(240, 248, 255, 0.073);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: left;
-  }
-  
-  .fileinput{
-    margin-bottom: 20px;
-  }
-  
-  
-  
-  .fileinputbox{
-    color: black;
-    margin-top: 10px;
-    border-radius: 20px;
-    padding: 9px;
-    padding-left: 20px;
-    padding-right: 100px;
-    background-color: white;  
-    width: 400px;
-  }
-  
- 
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1a0939, #4a1f91);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  color: white;
 
-  .percentageinput {
-    position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.percentageinput label {
-    display: block; /* Ensure label takes full width */
-    margin-bottom: 5px; /* Add some space below the label */
+/* ===============================
+   Left Side - File Preview
+================================= */
+.resizecard .showfile {
+  flex: 1;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 20px;
+  height: 70vh;
+  overflow: hidden;
 }
 
-.percentageinputbox-container {
-    position: absolute;
-    top: calc(100% + 5px); 
-    left: 0; 
-    width: 100%; 
+/* ===============================
+   Right Side - Input Panel
+================================= */
+.resizecard .input {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
+/* ===============================
+   Form Sections
+================================= */
+.form-section {
+  padding: 15px 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.form-section h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.section-desc {
+  font-size: 0.9rem;
+  color: #c9c9c9;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+/* ===============================
+   File Input
+================================= */
+.fileinputbox {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+
+  background: #fff;
+  color: #000;
+  font-size: 1rem;
+
+  transition: box-shadow 0.25s ease;
+}
+
+.fileinputbox:focus {
+  box-shadow: 0 0 12px #7b3ff5;
+}
+
+/* ===============================
+   Toggle Switches
+================================= */
+.scallingswitchbox {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #888;
+  border-radius: 30px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background: linear-gradient(135deg, #7b3ff5, #491bb2);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* ===============================
+   Percentage Input
+================================= */
 .percentageinputbox {
-  margin-top: 10px ;
-    width: 40%; /* Take up full width */
-    border-radius: 20px;
-    padding: 8px;
-    border: none;
-    font-size: 1rem;
-    background-color: white; 
-    color: black; /*#10052a;*/
-    text-align: center; /* Center align text */
-    outline: none;
+  width: 160px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+
+  background: #fff;
+  color: #000;
+  font-size: 1rem;
+  text-align: center;
+
+  transition: box-shadow 0.25s ease;
+}
+
+.percentageinputbox:focus {
+  box-shadow: 0 0 12px #7b3ff5;
+}
+
+/* ===============================
+   Resize Button
+================================= */
+.action-section {
+  text-align: center;
+}
+
+.resize {
+  width: 100%;
+  padding: 1% ;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #7b3ff5, #491bb2);
+  transition: all 0.3s ease;
+}
+
+.resize:hover {
+  background: linear-gradient(135deg, #491bb2, #7b3ff5);
+  box-shadow: 0 8px 25px rgba(123, 63, 245, 0.55);
+}
+
+/* ===============================
+   Progress Bar
+================================= */
+/* .progress-bar-container {
+  margin-top: 15px;
+  height: 8px;
+  width: 100%;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;   
+} */
+
+.progress-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-top: 15px;
+  overflow: hidden;
 }
 
 
-  
-  .scallingtoggle{
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+.progress-bar {
+  /* height: 100%;
+  width: 0;
+  background: linear-gradient(135deg, #7b3ff5, #491bb2);
+  animation: progressAnimation 2s infinite; */
 
-  .scallingtoggle p{
-    font-size: 15px;
-  }
-  
-  .scallingswitchbox{
-    padding-top: 10px;
-    display: flex;
-    flex-direction: row;
-    width : auto;
-    justify-content: left;
-  }
-  
-  .upscale{
-    width: 170px;
-    margin-right: 10px;
-  }
-  .downscale{
-    width: auto;
-  }
-  
-  
-  .switch {
-    margin-left: 5px;
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%; 
-  }
-  
-  .resize{
-    color: white;
-    font-size: 25px;
-    margin-top: 45px; 
-    margin-left: 25px;
-    height: 50px;
-    width: 300px;
-    border-radius: 100px;
-    border: 0;
-    background: linear-gradient(to right bottom, #b151ffd0, #491BB2);
-  }
-  
-  .resize:hover{
-    cursor: pointer;
-    background-color: white;
-    box-shadow: 5px 0 25px 5px  #b151ffd0,
-      -5px 0 25px #b151ffd0;
-  }
+  height: 100%;
+  /* background: linear-gradient(135deg, #7b3ff5, #491bb2); */
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  transition: width 0.5s ease;
+}
 
-  .loading-dots::before {
-    content: '\00a0'; /* Use non-breaking space */
-    font-size: 27px; /* Adjust the font size for the dots */
-  }
-  
+@keyframes progressAnimation {
+  0% { width: 0; }
+  50% { width: 80%; }
+  100% { width: 0; }
+}
 
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
-  }
-  
-  .loading-dots {
-    display: inline-block;
-    font-size: 25px;
-    animation: bounce 1s infinite ease-in-out;
-  }
-  
-  .loading-dots:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  
-  .loading-dots:nth-child(3) {
-    animation-delay: 0.4s;
-  }
-  
-  
-  
-  
-  
+/* ===============================
+   Loading Dots Animation
+================================= */
+.loading-dots {
+  display: inline-block;
+  font-size: 1.5rem;
+  animation: bounce 1s infinite ease-in-out;
+}
 
+.loading-dots:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.loading-dots:nth-child(2) {
+  animation-delay: 0.4s;
+}
 
-  
-@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ===============================
+   Responsive
+================================= */
+@media (max-width: 768px) {
   .resizecard {
-    flex-direction: column; /* Change to column layout on smaller screens */
-    height: auto; /* Allow height to adjust based on content */
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    width: 95%;
+  }
+
+  .resizecard .showfile {
+    width: 100%;
+    margin-bottom: 15px;
   }
 
   .resizecard .input {
-    padding-left: 10px; /* Adjusted padding for input section */
+    width: 100%;
   }
 
-  .resizecard .showfile,
-  .resizecard .input {
-    width: 100%; /* Full width for both elements */
+  .percentageinputbox,
+  .fileinputbox {
+    width: 100%;
   }
-
-  .fileinputbox{ 
-    margin-left: -8px;
-    width: 200px;
-  }
-
-  .resize{
-    width: 150px;
-    margin-left: 19px;
-    margin-bottom: 8px;
-  }
-
-  .upscale,
-  .downscale {
-    width: auto; /* Adjust width to fit content */
-    font-size: 14px; /* Reduce font size */
-    padding: 5px 10px; /* Adjust padding for smaller buttons */
-    margin-left: -10px;
-  }
-
-  .percentageinputbox {
-      padding: 8px;
-      
-  }
-  
-  .image{
-    width: 50%;
-  }
-
-
 }

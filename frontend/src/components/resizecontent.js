@@ -1,126 +1,249 @@
 import "../components/resizecontent.css";
-import { useState } from 'react'
-import React from 'react';
+import { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Resizecontent = () => {
-    const [file ,setfile] = useState(null);
-    const [percentage ,setper] = useState(null);
-    const [upscale, setup] = useState(false);
-    const [downscale, setdown] = useState(false);
-    const [isLoading, setLoad] = useState(false);
-    const [isresized, setisrez] = useState(false)
-  
-    const Upscale = () => {
-      setup(!upscale);
-      setdown(false);
+  const [file, setFile] = useState(null);
+  const [percentage, setPer] = useState(null);
+  const [upscale, setUp] = useState(false);
+  const [downscale, setDown] = useState(false);
+  const [isLoading, setLoad] = useState(false);
+  const [isResized, setIsResized] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const toggleUpscale = () => {
+    setUp(!upscale);
+    setDown(false);
+  };
+
+  const toggleDownscale = () => {
+    setUp(false);
+    setDown(!downscale);
+  };
+
+  const resize = async () => {
+    if (!file) {
+      toast.warn("Please select a file");
+      return;
     }
-  
-    const Downscale = () => {
-      setup(false);
-      setdown(!downscale);
+    if (!percentage || percentage <= 0) {
+      toast.warn("Please enter a valid percentage");
+      return;
+    }
+    if (!upscale && !downscale) {
+      toast.warn("Please select Upscale or Downscale");
+      return;
     }
 
-    const resize = async () => {
-      if (file === null) {alert("Please Enter the file"); return}
-      if (percentage === 0) {alert("Please Enter the percentage"); return}
-      if ( (upscale === false) && (downscale === false) ) {alert("Please select whether to Upscale or downscale"); return} 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('percentage', percentage);
-      formData.append('upscale', upscale ? 'true' : 'false'); // Send as string
-      formData.append('downscale', downscale ? 'true' : 'false'); // Add downscale option
-      setLoad(true)
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("percentage", percentage);
+    formData.append("upscale", upscale ? "true" : "false");
+
+    setLoad(true);
+    setIsResized(false);
+    setProgress(0);
+
+    try {
+      // ✅ Start resize task
+      const response = await axios.post("http://127.0.0.1:8000/resize", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const { task_id } = response.data;
+      if (!task_id) throw new Error("No task_id returned from backend");
+
+      // ✅ Poll for progress
+      pollProgress(task_id);
+    } catch (err) {
+      console.error("Error starting resize:", err);
+      toast.error("Failed to start resize task.");
+      setLoad(false);
+    }
+  };
+
+  // ✅ Poll backend for progress
+  const pollProgress = (taskId) => {
+    const interval = setInterval(async () => {
       try {
-          const response = await axios.post('http://localhost:5000/resize', formData, {
-              headers: {
-                  'Content-Type': 'multipart/form-data',
-                  'Access-Control-Allow-Origin': '*'
-              },
-              responseType: 'blob', // Receive response as a binary blob
-          });
+        const res = await axios.get(`http://127.0.0.1:8000/resize/${taskId}/progress`);
+        const { progress, status } = res.data;
 
-          // Create a download link for the resized file
-          const downloadUrl = window.URL.createObjectURL(new Blob([response.data], { type: file.type }));
-          const link = document.createElement('a');
-          link.href = downloadUrl;
-          link.setAttribute('download', "resized_"+(upscale ? "Upscaled_" : "Downscaled_")+file.name);
-          setisrez(true)
-          document.body.appendChild(link);
-          link.click();
-  
-      } catch (error) {
-          console.error('Error resizing file:', error);
+        setProgress(progress);
+
+        if (status === "completed") {
+          clearInterval(interval);
+          fetchResult(taskId);
+        } else if (status === "failed") {
+          clearInterval(interval);
+          toast.error("Resizing failed. Check backend logs.");
+          setLoad(false);
+        }
+      } catch (err) {
+        clearInterval(interval);
+        console.error("Error polling progress:", err);
+        toast.error("Lost connection while tracking progress.");
+        setLoad(false);
       }
-  }
+    }, 1000);
+  };
+
+  // ✅ Fetch result file when completed
+  const fetchResult = async (taskId) => {
+    try {
+      const res = await axios.get(`http://127.0.0.1:8000/resize/${taskId}/result`, {
+        responseType: "blob",
+      });
+
+      handleDownload(res.data, file);
+      setIsResized(true);
+      setLoad(false);
+      toast.success("File resized successfully!");
+    } catch (err) {
+      console.error("Error fetching result:", err);
+      toast.error("Could not fetch resized file.");
+      setLoad(false);
+    }
+  };
+
+  // ✅ Trigger file download
+  const handleDownload = (blobData, file) => {
+    const downloadUrl = window.URL.createObjectURL(blobData);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.setAttribute(
+      "download",
+      "resized_" + (upscale ? "Upscaled_" : "Downscaled_") + file.name
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div>
-    <div className="resizecard" >
-    <div className="showfile">
-    {file && (
-    <div>
-        {file.type.startsWith('image') ? (
-            // If the file is an image, display it
-            <img src={URL.createObjectURL(file)} alt="Preview" style={{ maxWidth: '550px' ,maxHeight: '450px'}} />
-        ) : (
-            // If the file is a video, display it
-            <video key={file.name} controls style={{ maxWidth:'550px' , maxHeight:'480px' }}>
-                <source src={URL.createObjectURL(file)} type={file.type} />
-                Your browser does not support the video tag.
-            </video>
-        )}
-    </div>
-)}  
-</div>
-
-      <div className="input">
-        <div className="fileinput">
-          Enter Your File
-          <br />
-          <input className='fileinputbox' type="file" accept="image/video/*" alt='' onChange={(e) => {setfile(e.target.files[0]), setLoad(false), setisrez(false)}}></input>
+      <div className="resizecard">
+        {/* Preview File */}
+        <div className="showfile">
+          {file && (
+            <div>
+              {file.type.startsWith("image") ? (
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="Preview"
+                  style={{ maxWidth: "100%", maxHeight: "65vh" }}
+                />
+              ) : (
+                <video key={file.name} controls style={{ maxWidth: "100%", maxHeight: "65vh" }}>
+                  <source src={URL.createObjectURL(file)} type={file.type} />
+                  Your browser does not support the video tag.
+                </video>
+              )}
+            </div>
+          )}
         </div>
-        
-        <div className="scallingtoggle">
-          UpScale or DownScale your file.
-            <br/>
-            <p >UpScale to expand & DownScale to compress your file </p>
-          <div className='scallingswitchbox'>
-          <div className="upscale">
-            UpScale
-          <label class="switch" >
-            <input type="checkbox" checked={upscale} onChange={() => {Upscale(), setLoad(false), setisrez(false)}} />
-            <span class="slider round"></span>
-          </label>
-          </div>          
-          <div className="downscale">
-            DownScale
-          <label class="switch">
-            <input type="checkbox" checked={downscale} onChange={() => {Downscale(), setLoad(false), setisrez(false)}}/>
-            <span class="slider round"></span>
-          </label>
+
+        <div className="input">
+          {/* File Upload */}
+          <div className="form-section">
+            <h3>Upload File</h3>
+            <input
+              className="fileinputbox"
+              type="file"
+              accept="image/*,video/*"
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+                setLoad(false);
+                setIsResized(false);
+                setProgress(0);
+              }}
+            />
+          </div>
+
+          {/* Scaling Options */}
+          <div className="form-section">
+            <h3>Scaling Options</h3>
+            <div className="scallingswitchbox">
+              <div className="toggle-item">
+                <span>UpScale</span>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={upscale}
+                    onChange={() => {
+                      toggleUpscale();
+                      setLoad(false);
+                      setIsResized(false);
+                      setProgress(0);
+                    }}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+              <div className="toggle-item">
+                <span>DownScale</span>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={downscale}
+                    onChange={() => {
+                      toggleDownscale();
+                      setLoad(false);
+                      setIsResized(false);
+                      setProgress(0);
+                    }}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Percentage Input */}
+          <div
+            className="form-section"
+            style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+          >
+            <div>
+              <h3>Resize Percentage</h3>
+              <p className="section-desc">Enter a value between 1% - 100%.</p>
+            </div>
+            <input
+              className="percentageinputbox"
+              type="number"
+              min={1}
+              max={100}
+              onChange={(e) => {
+                setPer(e.target.value);
+                setLoad(false);
+                setIsResized(false);
+                setProgress(0);
+              }}
+            />
+          </div>
+
+          {/* Action + Progress */}
+          <div className="form-section action-section">
+            <button className="resize" onClick={resize}>
+              {isLoading ? (isResized ? "File Resized" : "Resizing...") : "Resize"}
+            </button>
+
+            {/* Progress Bar */}
+            {isLoading && (
+              <div className="progress-bar-container">
+                <div className="progress-bar" style={{ width: `${progress}%` }}>
+                  {progress}%
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        </div>
-        <div className="percentageinput">
-          Percentage ( 1 ~ 100% )
-          <br />
-          <input className='percentageinputbox' type="number" min={1} max={200} onChange={ (e) => {setper(e.target.value), setLoad(false), setisrez(false)}}></input>
-        </div>
-        
-        <button className="resize" onClick={resize}>
-          {isLoading ? (
-          isresized ? "File Resized" : (
-          <span>Loading<span className="loading-dots">.</span><span className="loading-dots">.</span><span className="loading-dots">.</span></span>
-                        )
-                       ) : "Resize"}
-        </button>
-
-
-        {/* <button className="resize" onClick={resize}> {isLoading ? (isresized ? "File Resized" : "Loading...") : "Resize"} </button> */}
-        <a id="downloadLink" download="#" href="#" style={{display : 'none', margin: '20px auto 0 auto'}}>Download Resized Video</a>
       </div>
-    </div>
+
+      {/* Toast Notifications */}
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
