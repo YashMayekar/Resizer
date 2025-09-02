@@ -12,6 +12,7 @@ import logging
 from cv2 import dnn_superres
 from typing import Dict
 import uuid
+from datetime import datetime
 
 # ---------------------------------------------------------
 # FastAPI Initialization
@@ -33,7 +34,11 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"message": "Hello from FastAPI."}
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return {
+        "message": "Hello from FastAPI!!!",
+        "datetime": current_time
+    }
 
 # ---------------------------------------------------------
 # Global task store
