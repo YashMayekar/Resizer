@@ -1,2 +1,6 @@
 fastapi
 uvicorn
+pillow>=9.5.0
+opencv-python>=4.7.0
+opencv-contrib-python>=4.7.0
+numpy>=1.24.0
