@@ -48,7 +48,6 @@ const Resizecontent = () => {
     setProgress(0);
 
     try {
-      toast.warn(`${API_BASE}/resize`)
       // ✅ Start resize task
       const response = await axios.post(`${API_BASE}/resize`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -70,7 +69,7 @@ const Resizecontent = () => {
   const pollProgress = (taskId) => {
     const interval = setInterval(async () => {
       try {
-        const res = await axios.get(`${API_BASE}/resize/resize/${taskId}/progress`);
+        const res = await axios.get(`${API_BASE}/resize/${taskId}/progress`);
         const { progress, status } = res.data;
 
         setProgress(progress);
@@ -95,7 +94,7 @@ const Resizecontent = () => {
   // ✅ Fetch result file when completed
   const fetchResult = async (taskId) => {
     try {
-      const res = await axios.get(`${API_BASE}/resize/resize/${taskId}/result`, {
+      const res = await axios.get(`${API_BASE}/resize/${taskId}/result`, {
         responseType: "blob",
       });
 
