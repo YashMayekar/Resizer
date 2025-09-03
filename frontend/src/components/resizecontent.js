@@ -48,6 +48,7 @@ const Resizecontent = () => {
     setProgress(0);
 
     try {
+      toast.warn(`${API_BASE}/resize`)
       // ✅ Start resize task
       const response = await axios.post(`${API_BASE}/resize`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
