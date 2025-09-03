@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const API_BASE = process.env.RESIZER_FASTAPI_URL;
+const API_BASE = process.env.REACT_APPREACT_APP_API_URL;
 
 const Resizecontent = () => {
   const [file, setFile] = useState(null);
