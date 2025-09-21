@@ -68,6 +68,24 @@ def upscale_with_fsrcnn(img: np.ndarray) -> np.ndarray:
         img = cv.cvtColor(img, cv.COLOR_BGRA2BGR)
     return fsrcnn.upsample(img)
 
+# ---------------------------------------------------------
+# Fallback Upscale Helper
+# ---------------------------------------------------------
+def safe_upscale(img: np.ndarray, percentage: int, interpolation=cv.INTER_CUBIC) -> np.ndarray:
+    """
+    Try FSRCNN upscale. If it fails, fallback to OpenCV resize with (100 + percentage).
+    """
+    try:
+        if fsrcnn is not None:
+            return fsrcnn.upsample(img)
+        else:
+            raise Exception("FSRCNN not available")
+    except Exception as e:
+        logging.warning(f"FSRCNN upscale failed, falling back to OpenCV resize: {e}")
+        # fallback: add 100% to requested percentage
+        scale = (100 + percentage) / 100.0
+        new_size = (int(img.shape[1] * scale), int(img.shape[0] * scale))
+        return cv.resize(img, new_size, interpolation=interpolation)
 
 # ---------------------------------------------------------
 # Upload + Start Task
@@ -131,8 +149,9 @@ def process_file(task_id, input_path, ext, percentage, interpolation, upscale):
         progress_store[task_id] = 0
 
 
+
 # ---------------------------------------------------------
-# Image Resizing
+# Image Resizing (with fallback upscale)
 # ---------------------------------------------------------
 def resize_image(path, percentage, interpolation, upscale, task_id, ext):
     img = cv.imread(path, cv.IMREAD_UNCHANGED)
@@ -140,8 +159,9 @@ def resize_image(path, percentage, interpolation, upscale, task_id, ext):
         raise Exception("Could not read image")
 
     progress_store[task_id] = 30
+
     if upscale:
-        img = upscale_with_fsrcnn(img)
+        img = safe_upscale(img, percentage, interpolation)
 
     progress_store[task_id] = 60
     new_size = (int(img.shape[1] * percentage / 100), int(img.shape[0] * percentage / 100))
@@ -154,7 +174,7 @@ def resize_image(path, percentage, interpolation, upscale, task_id, ext):
 
 
 # ---------------------------------------------------------
-# Video Resizing
+# Video Resizing (with fallback upscale)
 # ---------------------------------------------------------
 def resize_video(path, percentage, interpolation, upscale, task_id, ext):
     output_path = path.replace("input", "output")
@@ -180,7 +200,7 @@ def resize_video(path, percentage, interpolation, upscale, task_id, ext):
         if not ret:
             break
         if upscale:
-            frame = upscale_with_fsrcnn(frame)
+            frame = safe_upscale(frame, percentage, interpolation)
         frame = cv.resize(frame, (new_width, new_height), interpolation=interpolation)
         out.write(frame)
 
@@ -193,7 +213,7 @@ def resize_video(path, percentage, interpolation, upscale, task_id, ext):
 
 
 # ---------------------------------------------------------
-# GIF Resizing
+# GIF Resizing (with fallback upscale)
 # ---------------------------------------------------------
 def resize_gif(path, percentage, interpolation, upscale, task_id):
     output_path = path.replace("input", "output")
@@ -208,7 +228,7 @@ def resize_gif(path, percentage, interpolation, upscale, task_id):
         frame_np = cv.cvtColor(np.array(frame), cv.COLOR_RGBA2BGRA)
 
         if upscale:
-            frame_np = upscale_with_fsrcnn(frame_np)
+            frame_np = safe_upscale(frame_np, percentage, interpolation)
 
         new_size = (int(frame_np.shape[1] * percentage / 100), int(frame_np.shape[0] * percentage / 100))
         resized = cv.resize(frame_np, new_size, interpolation=interpolation)
@@ -225,7 +245,6 @@ def resize_gif(path, percentage, interpolation, upscale, task_id):
         format="GIF",
     )
     return output_path
-
 
 # ---------------------------------------------------------
 # Progress Endpoint
